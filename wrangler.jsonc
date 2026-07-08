@@ -1,6 +1,6 @@
 {
   // Cloudflare Workers static assets — no Worker script, assets only.
-  "name": "homepage",
+  "name": "website",
   "compatibility_date": "2026-07-08",
   "assets": {
     "directory": "./dist",

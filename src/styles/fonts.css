@@ -1,0 +1,42 @@
+/* Font stacks + locale typesetting rules.
+   The --font-display / --font-jp / --font-thai variables are emitted by the
+   Astro Fonts API (astro.config.ts); each is a complete family stack. The
+   display stack has fallbacks:[] so composition below reaches the CJK/Thai
+   faces before any generic family terminates matching. */
+
+:root {
+  /* --font-display / --font-thai come from the Fonts API; JP is the
+     Fontsource variable package (family name is fixed by that package). */
+  --font-jp: 'Noto Sans JP Variable', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', Meiryo,
+    sans-serif;
+  --font-stack: var(--font-display), var(--font-jp);
+}
+
+:lang(ja),
+:lang(en) {
+  font-family: var(--font-display), var(--font-jp);
+}
+
+:lang(th) {
+  font-family: var(--font-display), var(--font-thai);
+}
+
+/* Loosened line-height applies to body/label roles ONLY — display, headline
+   and title roles keep their typescale-defined line-heights. */
+:lang(ja) :is(p, li, dd, .body-lg, .body-md, .body-sm, .label-lg, .label-md, .label-sm) {
+  line-height: 1.8;
+}
+
+:lang(th) :is(p, li, dd, .body-lg, .body-md, .body-sm, .label-lg, .label-md, .label-sm) {
+  line-height: 1.9;
+}
+
+/* JA: strict kinsoku line breaking. */
+:lang(ja) {
+  line-break: strict;
+}
+
+/* Thai: correct wrapping comes from the browser's dictionary-based
+   segmentation. The rule is a PROHIBITION, enforced by convention + lint:
+   never apply word-break: break-all or overflow-wrap: anywhere to :lang(th)
+   content. No positive declaration is needed here. */

@@ -1,0 +1,14 @@
+order: 3
+repo: https://github.com/Sumire-Labs/SodiumLeafCulling-Unofficial
+modrinth: https://modrinth.com/mod/sodiumleafculling-unofficial
+tags: [Java, Mod, Optimization, Addon]
+i18n:
+  ja:
+    title: SodiumLeafCulling (Unofficial)
+    description: "SodiumLeafCulling(木の葉のスマートなカリングによる描画最適化)を複数のローダーに対応させ、さまざまなバージョンへ移植しているプロジェクト。"
+  en:
+    title: SodiumLeafCulling (Unofficial)
+    description: "A project porting SodiumLeafCulling — a smart leaf-culling rendering optimization for Sodium — to multiple loaders and Minecraft versions."
+  th:
+    title: SodiumLeafCulling (Unofficial)
+    description: "โปรเจกต์พอร์ต SodiumLeafCulling (การเพิ่มประสิทธิภาพการเรนเดอร์ด้วยการคัดใบไม้อัจฉริยะสำหรับ Sodium) ไปยังหลายโหลดเดอร์และหลายเวอร์ชัน"

@@ -1,0 +1,13 @@
+order: 4
+repo: https://github.com/Sumire-Labs/Dealer.js
+tags: [TypeScript, Discord, Bot]
+i18n:
+  ja:
+    title: Dealer.js
+    description: "GTA V の世界観を再現したミニゲームを Discord 上で遊べる BOT。"
+  en:
+    title: Dealer.js
+    description: "A Discord bot that brings a GTA V-inspired minigame to Discord."
+  th:
+    title: Dealer.js
+    description: "บอท Discord ที่นำมินิเกมในบรรยากาศ GTA V มาเล่นบน Discord"

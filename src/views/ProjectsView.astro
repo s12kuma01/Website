@@ -1,0 +1,64 @@
+---
+import { getCollection } from 'astro:content';
+import ProjectCard from '@/components/ProjectCard.astro';
+import { useDict, type Locale } from '@/i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = useDict(locale);
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<section class="projects">
+  <header class="projects__masthead">
+    <h1 class="display-sm projects__title" data-emphasized>{t.projects.heading}</h1>
+    <p class="projects__intro title-md">{t.projects.intro}</p>
+  </header>
+
+  <div class="projects__grid">
+    {
+      projects.map((project) => (
+        <ProjectCard project={project} locale={locale} featured={project.data.order === 0} />
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .projects {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 24px 0;
+  }
+
+  .projects__masthead {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 40px;
+  }
+
+  .projects__title {
+    margin: 0;
+    color: var(--md-sys-color-on-surface);
+    text-wrap: balance;
+  }
+
+  .projects__intro {
+    margin: 4px 0 0;
+    max-width: 56ch;
+    color: var(--md-sys-color-on-surface-variant);
+    font-weight: var(--md-sys-typescale-weight-plain);
+  }
+
+  /* Fills the width with as many ~280px columns as fit; the flagship spans the
+     full row (see ProjectCard). */
+  .projects__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
+    gap: 20px;
+  }
+</style>

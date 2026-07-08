@@ -1,0 +1,61 @@
+{
+  "nav": {
+    "primary": "Primary navigation",
+    "settings": "Settings"
+  },
+  "settings": {
+    "mode": "Appearance",
+    "modeLight": "Light",
+    "modeAuto": "Auto",
+    "modeDark": "Dark",
+    "palette": "Theme color",
+    "hue": "Hue",
+    "reroll": "Re-roll color",
+    "language": "Language"
+  },
+  "footer": {
+    "hosted": "Hosted on Cloudflare · Built with Astro",
+    "github": "GitHub profile",
+    "discord": "Discord profile"
+  },
+  "home": {
+    "metaTitle": "s12kuma01",
+    "metaDescription": "s12kuma01's official homepage — projects and profile.",
+    "title": "s12kuma01's Site",
+    "ctaProjects": "View projects",
+    "ctaAbout": "About me"
+  },
+  "projects": {
+    "metaTitle": "Projects",
+    "metaDescription": "Main projects s12kuma01 is building.",
+    "heading": "Projects",
+    "intro": "Things I am actively building right now.",
+    "viewRepo": "Repository",
+    "viewSite": "Visit site"
+  },
+  "about": {
+    "metaTitle": "About",
+    "metaDescription": "A longer profile of s12kuma01.",
+    "heading": "About",
+    "profileHeading": "Profile",
+    "profileBody": [
+      "I'm s12kuma01. I do Minecraft modding and Discord bot development as a hobby.",
+      "I mostly just build whatever random idea pops into my head. I get bored really easily — sometimes I'll buy a new game and lose interest while it's still loading."
+    ],
+    "skillsHeading": "Skills & tools",
+    "skillGroups": [
+      { "label": "Languages", "items": ["Java", "TypeScript", "Go", "Python", "HTML", "CSS"] },
+      { "label": "Frameworks & libraries", "items": ["Astro", "Next.js", "Vue", "Tailwind CSS", "Node.js", "discord.js", "Mixin"] },
+      { "label": "Tools & build", "items": ["Gradle", "Git", "GitHub", "VS Code", "IntelliJ IDEA", "PowerShell", "Ghostty"] },
+      { "label": "Infra & OS", "items": ["Cloudflare", "Nginx", "SQLite", "Windows", "Arch Linux", "Debian"] }
+    ],
+    "interestsHeading": "Hobbies",
+    "interestsBody": "I mostly work on Minecraft — optimizing rendering and adding visual options — mainly on 1.12.2 (Cleanroom Loader), a version I absolutely love. I also build Arch Linux setups and playful Discord bots on the side. I did give NixOS a shot, but it was too hard and I gave up in tears."
+  },
+  "notFound": {
+    "metaTitle": "Page not found",
+    "heading": "Page not found",
+    "body": "The page you are looking for has moved or does not exist.",
+    "backHome": "Back to home"
+  }
+}

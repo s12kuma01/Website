@@ -1,0 +1,350 @@
+/* Base styles — resets, color-scheme wiring, typography roles, global
+   focus/interaction/a11y rules. Font stacks are defined in fonts.css. */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  /* Auto (follow the OS) by default; the settings FAB writes data-mode to
+     force a mode. color-scheme drives every light-dark() color token. */
+  color-scheme: light dark;
+  scrollbar-gutter: stable;
+}
+
+:root[data-mode='light'] {
+  color-scheme: light;
+}
+
+:root[data-mode='dark'] {
+  color-scheme: dark;
+}
+
+body {
+  background: var(--md-sys-color-surface);
+  color: var(--md-sys-color-on-surface);
+  font-family: var(--font-stack, system-ui, sans-serif);
+  font-size: var(--md-sys-typescale-body-lg-size);
+  line-height: var(--md-sys-typescale-body-lg-line-height);
+  -webkit-font-smoothing: antialiased;
+  /* Sticky-footer column: main grows to fill the viewport so the footer
+     rests at the bottom and there is no empty gap below short pages. */
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Main fills the remaining height (clears the fixed 12px+64px island header
+     via padding-top); as a flex column its view can center itself. */
+main {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  padding-top: 88px;
+}
+
+img,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: var(--md-sys-color-primary);
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+/* Focus indicator — M3E spec: 3px, color secondary, 2px outward offset,
+   keyboard focus only. */
+:focus-visible {
+  outline: 3px solid var(--md-sys-color-secondary);
+  outline-offset: 2px;
+}
+
+/* Typography roles. `data-emphasized` switches to the emphasized weight
+   (same size/line-height — M3E emphasized scale changes weight only). */
+.display-lg,
+.display-md,
+.display-sm,
+.headline-lg,
+.headline-md,
+.headline-sm,
+.title-lg {
+  font-weight: var(--md-sys-typescale-weight-plain);
+}
+
+.title-md,
+.title-sm,
+.label-lg,
+.label-md,
+.label-sm {
+  font-weight: var(--md-sys-typescale-weight-medium);
+}
+
+.body-lg,
+.body-md,
+.body-sm {
+  font-weight: var(--md-sys-typescale-weight-plain);
+}
+
+[data-emphasized].display-lg,
+[data-emphasized].display-md,
+[data-emphasized].display-sm,
+[data-emphasized].headline-lg,
+[data-emphasized].headline-md,
+[data-emphasized].headline-sm,
+[data-emphasized].title-lg,
+[data-emphasized].body-lg,
+[data-emphasized].body-md,
+[data-emphasized].body-sm {
+  font-weight: var(--md-sys-typescale-weight-plain-emphasized);
+}
+
+[data-emphasized].title-md,
+[data-emphasized].title-sm,
+[data-emphasized].label-lg,
+[data-emphasized].label-md,
+[data-emphasized].label-sm {
+  font-weight: var(--md-sys-typescale-weight-medium-emphasized);
+}
+
+.display-lg { font-size: var(--md-sys-typescale-display-lg-size); line-height: var(--md-sys-typescale-display-lg-line-height); }
+.display-md { font-size: var(--md-sys-typescale-display-md-size); line-height: var(--md-sys-typescale-display-md-line-height); }
+.display-sm { font-size: var(--md-sys-typescale-display-sm-size); line-height: var(--md-sys-typescale-display-sm-line-height); }
+.headline-lg { font-size: var(--md-sys-typescale-headline-lg-size); line-height: var(--md-sys-typescale-headline-lg-line-height); }
+.headline-md { font-size: var(--md-sys-typescale-headline-md-size); line-height: var(--md-sys-typescale-headline-md-line-height); }
+.headline-sm { font-size: var(--md-sys-typescale-headline-sm-size); line-height: var(--md-sys-typescale-headline-sm-line-height); }
+.title-lg { font-size: var(--md-sys-typescale-title-lg-size); line-height: var(--md-sys-typescale-title-lg-line-height); }
+.title-md { font-size: var(--md-sys-typescale-title-md-size); line-height: var(--md-sys-typescale-title-md-line-height); }
+.title-sm { font-size: var(--md-sys-typescale-title-sm-size); line-height: var(--md-sys-typescale-title-sm-line-height); }
+.body-lg { font-size: var(--md-sys-typescale-body-lg-size); line-height: var(--md-sys-typescale-body-lg-line-height); }
+.body-md { font-size: var(--md-sys-typescale-body-md-size); line-height: var(--md-sys-typescale-body-md-line-height); }
+.body-sm { font-size: var(--md-sys-typescale-body-sm-size); line-height: var(--md-sys-typescale-body-sm-line-height); }
+.label-lg { font-size: var(--md-sys-typescale-label-lg-size); line-height: var(--md-sys-typescale-label-lg-line-height); }
+.label-md { font-size: var(--md-sys-typescale-label-md-size); line-height: var(--md-sys-typescale-label-md-line-height); }
+.label-sm { font-size: var(--md-sys-typescale-label-sm-size); line-height: var(--md-sys-typescale-label-sm-line-height); }
+
+/* Skip link — first focusable element, visible only on keyboard focus. */
+.skip-link {
+  position: fixed;
+  top: -100px;
+  left: 16px;
+  z-index: 200;
+  padding: 12px 20px;
+  border-radius: var(--md-sys-shape-corner-full);
+  background: var(--md-sys-color-inverse-surface);
+  color: var(--md-sys-color-inverse-on-surface);
+  text-decoration: none;
+}
+
+.skip-link:focus-visible {
+  top: 16px;
+}
+
+/* Icon button (40px, XS+ touch target via padding box). Same press-morph
+   protocol as .m3-btn: concrete resting radius, [data-pressed] squares off. */
+.m3-iconbtn {
+  --_r-rest: 20px;
+  display: inline-grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  border-radius: var(--_r-rest);
+  position: relative;
+  isolation: isolate;
+  background: transparent;
+  color: var(--md-sys-color-on-surface-variant);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    border-radius var(--md-sys-motion-spring-fast-spatial-duration)
+      var(--md-sys-motion-spring-fast-spatial-easing),
+    background-color var(--md-sys-motion-spring-fast-effects-duration)
+      var(--md-sys-motion-spring-fast-effects-easing),
+    color var(--md-sys-motion-spring-fast-effects-duration)
+      var(--md-sys-motion-spring-fast-effects-easing);
+}
+
+.m3-iconbtn[data-pressed] {
+  border-radius: 8px;
+}
+
+.m3-iconbtn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: currentColor;
+  opacity: 0;
+  transition: opacity var(--md-sys-motion-spring-fast-effects-duration)
+    var(--md-sys-motion-spring-fast-effects-easing);
+}
+
+.m3-iconbtn:hover::before {
+  opacity: var(--md-sys-state-hover);
+}
+
+.m3-iconbtn[data-pressed]::before,
+.m3-iconbtn:active::before {
+  opacity: var(--md-sys-state-press);
+}
+
+.m3-iconbtn svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* Button groups. Standard groups get the "squish" (press-morph.ts sets
+   explicit widths; the width transition below animates them). Connected
+   groups ([data-connected]) sit flush with 2px gaps and 8px inner corners. */
+.m3-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.m3-group > .m3-btn.m3-btn {
+  min-width: 0;
+  overflow: hidden;
+  transition:
+    border-radius var(--md-sys-motion-spring-fast-spatial-duration)
+      var(--md-sys-motion-spring-fast-spatial-easing),
+    width var(--md-sys-motion-spring-fast-spatial-duration)
+      var(--md-sys-motion-spring-fast-spatial-easing),
+    background-color var(--md-sys-motion-spring-fast-effects-duration)
+      var(--md-sys-motion-spring-fast-effects-easing),
+    color var(--md-sys-motion-spring-fast-effects-duration)
+      var(--md-sys-motion-spring-fast-effects-easing),
+    box-shadow var(--md-sys-motion-spring-fast-effects-duration)
+      var(--md-sys-motion-spring-fast-effects-easing);
+}
+
+.m3-group[data-connected] {
+  gap: 2px;
+}
+
+.m3-group[data-connected] > .m3-btn.m3-btn {
+  --_r-rest: 8px;
+}
+
+.m3-group[data-connected] > .m3-btn.m3-btn:first-child {
+  border-start-start-radius: calc(var(--_h) / 2);
+  border-end-start-radius: calc(var(--_h) / 2);
+}
+
+.m3-group[data-connected] > .m3-btn.m3-btn:last-child {
+  border-start-end-radius: calc(var(--_h) / 2);
+  border-end-end-radius: calc(var(--_h) / 2);
+}
+
+/* Cross-document view transitions (MPA navigation). Chromium + Safari 18.2+;
+   Firefox falls back to instant navigation. Top-level at-rule — support for
+   nesting it inside @media is inconsistent, so reduced-motion is handled by
+   zeroing the pseudo-element animations below instead. */
+@view-transition {
+  navigation: auto;
+}
+
+/* Page content swaps with a quick, unobtrusive fade. The active-tab pill no
+   longer slides between pages (view-transition-name removed); selection is
+   now a tap-to-fill — a ripple from the pointer + the pill springing in on
+   the destination page (Header.astro), matching the M3 connected-button-group
+   interaction. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: var(--md-sys-motion-spring-fast-effects-duration);
+  animation-timing-function: var(--md-sys-motion-spring-fast-effects-easing);
+}
+
+/* Top-of-viewport M3 linear progress indicator (route-progress.ts). A rounded
+   primary segment flows across a secondary-container track; shown only while a
+   load actually takes time. */
+.route-progress {
+  position: fixed;
+  inset-block-start: 0;
+  inset-inline: 0;
+  z-index: 300; /* above the header island (100) */
+  height: 4px;
+  overflow: hidden;
+  background: var(--md-sys-color-secondary-container);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--md-sys-motion-spring-fast-effects-duration)
+    var(--md-sys-motion-spring-fast-effects-easing);
+}
+
+.route-progress[data-active] {
+  opacity: 1;
+}
+
+.route-progress__bar {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: 100%;
+  border-radius: 2px;
+  background: var(--md-sys-color-primary);
+  transform-origin: left center;
+  animation: route-flow 1.4s infinite cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes route-flow {
+  0% {
+    transform: translateX(-100%) scaleX(0.5);
+  }
+  60%,
+  100% {
+    transform: translateX(200%) scaleX(0.5);
+  }
+}
+
+/* Material touch ripple (spawned by ripple.ts). The ripple targets set
+   position + overflow so the circle is clipped to the pill shape. */
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: currentColor;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0);
+  will-change: transform, opacity;
+}
+
+/* Reduced motion — spatial motion collapses to near-instant; brief effects
+   fades remain (they communicate state and trigger no vestibular response). */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-image-pair(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation-duration: 0s !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --md-sys-motion-spring-fast-spatial-easing: ease-out;
+    --md-sys-motion-spring-default-spatial-easing: ease-out;
+    --md-sys-motion-spring-slow-spatial-easing: ease-out;
+    --md-sys-motion-spring-fast-spatial-duration: 1ms;
+    --md-sys-motion-spring-default-spatial-duration: 1ms;
+    --md-sys-motion-spring-slow-spatial-duration: 1ms;
+    --md-sys-motion-spring-fast-effects-duration: 150ms;
+    --md-sys-motion-spring-default-effects-duration: 150ms;
+    --md-sys-motion-spring-slow-effects-duration: 150ms;
+  }
+}

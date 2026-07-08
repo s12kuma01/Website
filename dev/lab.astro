@@ -1,0 +1,105 @@
+---
+// Component gallery — dev-only route (/lab), injected via the dev-lab
+// integration in astro.config.ts. Never part of the production build.
+import Base from '@/layouts/Base.astro';
+import Button from '@/components/Button.astro';
+import Slider from '@/components/Slider.astro';
+import ShapeMask from '@/components/ShapeMask.astro';
+import LoadingGlyph from '@/components/LoadingGlyph.astro';
+---
+
+<Base locale="ja" title="Lab">
+  <div class="lab">
+    <h1 class="headline-lg" data-emphasized>Component Lab</h1>
+
+    <section>
+      <h2 class="title-lg">Buttons — sizes (round, filled)</h2>
+      <div class="row" id="lab-btn-sizes">
+        <Button size="xs">XS</Button>
+        <Button size="s">Small</Button>
+        <Button size="m">Medium</Button>
+        <Button size="l">Large</Button>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="title-lg">Buttons — variants + square</h2>
+      <div class="row">
+        <Button variant="filled">Filled</Button>
+        <Button variant="tonal">Tonal</Button>
+        <Button variant="outlined">Outlined</Button>
+        <Button variant="elevated">Elevated</Button>
+        <Button variant="text">Text</Button>
+        <Button shape="square">Square</Button>
+        <Button href="#" variant="tonal">Link{' '}button</Button>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="title-lg">Button group — squish</h2>
+      <div class="m3-group" id="lab-group">
+        <Button variant="tonal">左</Button>
+        <Button variant="tonal">中央</Button>
+        <Button variant="tonal">右</Button>
+      </div>
+      <h2 class="title-lg" style="margin-top:16px">Connected group</h2>
+      <div class="m3-group" data-connected>
+        <Button variant="tonal">日</Button>
+        <Button variant="tonal">週</Button>
+        <Button variant="tonal">月</Button>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="title-lg">Slider</h2>
+      <div style="max-width: 420px; display: grid; gap: 24px;">
+        <Slider label="Continuous (S)" value={64} id="lab-slider" />
+        <Slider label="Discrete + stops (XS)" size="xs" min={0} max={10} value={4} stops />
+      </div>
+    </section>
+
+    <section>
+      <h2 class="title-lg">ShapeMask — 40px & 160px</h2>
+      <div class="row">
+        <ShapeMask shape="cookie7" class="swatch swatch--40" />
+        <ShapeMask shape="sunny" class="swatch swatch--160" />
+        <ShapeMask shape="flower" class="swatch swatch--80" />
+        <ShapeMask shape="cookie12" class="swatch swatch--80t" />
+      </div>
+    </section>
+
+    <section>
+      <h2 class="title-lg">LoadingGlyph</h2>
+      <div class="row">
+        <LoadingGlyph />
+        <LoadingGlyph variant="contained" size={64} />
+      </div>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .lab {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 48px 24px;
+    display: grid;
+    gap: 40px;
+  }
+
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+    margin-top: 12px;
+  }
+
+  .lab :global(.swatch) {
+    background: var(--md-sys-color-primary-container);
+  }
+  .lab :global(.swatch--40) { width: 40px; height: 40px; }
+  .lab :global(.swatch--80) { width: 80px; height: 80px; background: var(--md-sys-color-tertiary-container); }
+  .lab :global(.swatch--80t) { width: 80px; height: 80px; background: var(--md-sys-color-secondary-container); }
+  .lab :global(.swatch--160) { width: 160px; height: 160px; }
+</style>

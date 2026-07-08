@@ -1,0 +1,13 @@
+order: 1
+repo: https://github.com/Sumire-Labs/Pulsar
+tags: [Java, "1.12.2", Mod, WIP]
+i18n:
+  ja:
+    title: Pulsar
+    description: "Minecraft 1.12.2 向けの高性能ライティングエンジン Mod。PaperMC の Starlight の BFS 伝播アルゴリズムをベースに、バニラの遅い光源計算をマルチスレッド対応の実装へ置き換えます(Cleanroom Loader)。"
+  en:
+    title: Pulsar
+    description: "A high-performance lighting engine for Minecraft 1.12.2, built on PaperMC Starlight's BFS propagation. It replaces vanilla's slow light updates with a modern, thread-safe implementation (Cleanroom Loader)."
+  th:
+    title: Pulsar
+    description: "เอนจินแสงประสิทธิภาพสูงสำหรับ Minecraft 1.12.2 อิงอัลกอริทึม BFS ของ Starlight (PaperMC) แทนที่การคำนวณแสงที่ช้าของ vanilla ด้วยการทำงานแบบมัลติเธรด (Cleanroom Loader)"

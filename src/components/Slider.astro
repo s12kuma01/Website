@@ -1,0 +1,209 @@
+---
+// M3 Expressive slider on a native <input type="range"> (keyboard/AT free).
+// New M3E anatomy: a thin 4×44px bar handle INSET into the track with a 6px
+// gap on both sides (painted via a transparent band in the track gradient),
+// 2px track corners facing the handle, optional 4px stop dots, and a
+// tooltip-style value indicator while dragging. Handle narrows to 2px while
+// active. Firefox degrades to a gapless track (visual only).
+
+interface Props {
+  size?: 'xs' | 's';
+  label: string;
+  name?: string;
+  id?: string;
+  min?: number;
+  max?: number;
+  step?: number;
+  value?: number;
+  /** Show 4px stop indicator dots (discrete sliders). */
+  stops?: boolean;
+  /** Hide the text label visually (still read by AT). */
+  hideLabel?: boolean;
+  class?: string;
+}
+const {
+  size = 's',
+  label,
+  name,
+  id,
+  min = 0,
+  max = 100,
+  step = 1,
+  value = 50,
+  stops = false,
+  hideLabel = false,
+  class: className,
+} = Astro.props;
+const frac = (value - min) / (max - min);
+const stepCount = Math.max(1, Math.round((max - min) / step));
+---
+
+<label
+  class:list={['m3-slider', className]}
+  data-size={size}
+  style={`--_frac:${frac};--_steps:${stepCount}`}
+>
+  <span class:list={['m3-slider__label', 'label-lg', { 'visually-hidden': hideLabel }]}>{label}</span>
+  <span class="m3-slider__row">
+    <input type="range" name={name} id={id} min={min} max={max} step={step} value={value} data-stops={stops ? '' : undefined} />
+    <output class="m3-slider__value label-md" aria-hidden="true">{value}</output>
+  </span>
+</label>
+
+<script>
+  // One delegated listener updates --_frac (track paint + value position)
+  // and the output text for every slider on the page.
+  document.addEventListener('input', (e) => {
+    const input = e.target as HTMLInputElement;
+    if (!input.matches('.m3-slider input[type="range"]')) return;
+    const root = input.closest<HTMLElement>('.m3-slider')!;
+    const frac =
+      (input.valueAsNumber - Number(input.min)) / (Number(input.max) - Number(input.min));
+    root.style.setProperty('--_frac', String(frac));
+    const out = root.querySelector('output');
+    if (out) out.textContent = input.value;
+  });
+</script>
+
+<style>
+  .m3-slider {
+    --_track-h: 24px;
+    --_handle-w: 4px;
+    --_handle-h: 44px;
+    --_gap: 6px;
+    --_r-outer: 8px;
+    display: block;
+    max-width: 100%;
+  }
+
+  .m3-slider[data-size='xs'] {
+    --_track-h: 16px;
+  }
+
+  .m3-slider__label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--md-sys-color-on-surface);
+  }
+
+  .m3-slider__row {
+    position: relative;
+    display: block;
+  }
+
+  .m3-slider input {
+    /* Handle position ≈ frac of usable width; the transparent band in the
+       gradient tracks it. */
+    --_x: calc(var(--_frac) * 100%);
+    appearance: none;
+    -webkit-appearance: none;
+    display: block;
+    width: 100%;
+    height: var(--_handle-h);
+    margin: 0;
+    background: transparent;
+    cursor: pointer;
+    touch-action: pan-y;
+  }
+
+  /* Track: active fill | 16px transparent band around the handle | remainder.
+     Painted on a background sized to the track height, centered. */
+  .m3-slider input {
+    background-image: linear-gradient(
+      to right,
+      var(--md-sys-color-primary) 0 calc(var(--_x) - var(--_gap) - var(--_handle-w) / 2),
+      transparent calc(var(--_x) - var(--_gap) - var(--_handle-w) / 2)
+        calc(var(--_x) + var(--_gap) + var(--_handle-w) / 2),
+      var(--md-sys-color-secondary-container) calc(var(--_x) + var(--_gap) + var(--_handle-w) / 2)
+    );
+    background-size: 100% var(--_track-h);
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: var(--_r-outer);
+  }
+
+  .m3-slider input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: var(--_handle-w);
+    height: var(--_handle-h);
+    border: none;
+    border-radius: 2px;
+    background: var(--md-sys-color-primary);
+    transition: width var(--md-sys-motion-spring-fast-spatial-duration)
+      var(--md-sys-motion-spring-fast-spatial-easing);
+  }
+
+  .m3-slider input:active::-webkit-slider-thumb {
+    width: 2px;
+  }
+
+  /* Firefox: same handle; the gradient band still paints but the gap is not
+     positionally exact — acceptable visual degradation (risk #6). */
+  .m3-slider input::-moz-range-thumb {
+    width: var(--_handle-w);
+    height: var(--_handle-h);
+    border: none;
+    border-radius: 2px;
+    background: var(--md-sys-color-primary);
+  }
+
+  /* Value indicator: tooltip-style rounded rect above the handle, visible
+     while interacting. */
+  .m3-slider__value {
+    position: absolute;
+    bottom: calc(100% + 4px);
+    left: clamp(20px, calc(var(--_frac) * 100%), calc(100% - 20px));
+    translate: -50% 0;
+    padding: 6px 10px;
+    border-radius: var(--md-sys-shape-corner-full);
+    background: var(--md-sys-color-inverse-surface);
+    color: var(--md-sys-color-inverse-on-surface);
+    opacity: 0;
+    scale: 0.6;
+    pointer-events: none;
+    transform-origin: bottom center;
+    transition:
+      opacity var(--md-sys-motion-spring-fast-effects-duration)
+        var(--md-sys-motion-spring-fast-effects-easing),
+      scale var(--md-sys-motion-spring-fast-spatial-duration)
+        var(--md-sys-motion-spring-fast-spatial-easing);
+  }
+
+  .m3-slider:has(input:active) .m3-slider__value,
+  .m3-slider:has(input:focus-visible) .m3-slider__value {
+    opacity: 1;
+    scale: 1;
+  }
+
+  /* Stop dots for discrete sliders (4px, on the inactive segment color). */
+  .m3-slider input[data-stops] {
+    background-image:
+      radial-gradient(
+        circle at center,
+        color-mix(in srgb, var(--md-sys-color-on-secondary-container) 60%, transparent) 0 2px,
+        transparent 2px
+      ),
+      linear-gradient(
+        to right,
+        var(--md-sys-color-primary) 0 calc(var(--_x) - var(--_gap) - var(--_handle-w) / 2),
+        transparent calc(var(--_x) - var(--_gap) - var(--_handle-w) / 2)
+          calc(var(--_x) + var(--_gap) + var(--_handle-w) / 2),
+        var(--md-sys-color-secondary-container) calc(var(--_x) + var(--_gap) + var(--_handle-w) / 2)
+      );
+    background-size:
+      calc(100% / var(--_steps)) var(--_track-h),
+      100% var(--_track-h);
+    background-position: center;
+    background-repeat: repeat-x, no-repeat;
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+</style>

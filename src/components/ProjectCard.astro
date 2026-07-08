@@ -1,0 +1,195 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import ShapeMask from '@/components/ShapeMask.astro';
+import { GITHUB, MODRINTH, CURSEFORGE, EXTERNAL } from '@/lib/card-icons';
+import { useDict, type Locale } from '@/i18n/ui';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+  locale: Locale;
+  featured?: boolean;
+}
+const { project, locale, featured = false } = Astro.props;
+const t = useDict(locale);
+const { cover, tags, repo, modrinth, curseforge, link } = project.data;
+const text = project.data.i18n[locale];
+
+// Link buttons rendered bottom-right, in order, for whichever are set.
+const links = [
+  { href: repo, icon: GITHUB, label: t.projects.viewRepo },
+  { href: modrinth, icon: MODRINTH, label: 'Modrinth' },
+  { href: curseforge, icon: CURSEFORGE, label: 'CurseForge' },
+  { href: link, icon: EXTERNAL, label: t.projects.viewSite },
+].filter((l): l is { href: string; icon: string; label: string } => Boolean(l.href));
+---
+
+<article class:list={['card', { 'card--featured': featured }]}>
+  <div class="card__body">
+    {
+      cover && (
+        <div class="card__media" aria-hidden="true">
+          <ShapeMask shape="cookie4" class="card__cover">
+            <Image src={cover} alt="" width={480} height={320} />
+          </ShapeMask>
+        </div>
+      )
+    }
+    <h2 class="card__title title-lg" data-emphasized>{text.title}</h2>
+    <p class="card__desc body-md">{text.description}</p>
+  </div>
+
+  <div class="card__foot">
+    <ul class="card__chips" role="list">
+      {tags.map((tag) => <li class="chip label-md">{tag}</li>)}
+    </ul>
+
+    {
+      links.length > 0 && (
+        <div class="card__links">
+          {links.map((l) => (
+            <a
+              class="card__link"
+              href={l.href}
+              target="_blank"
+              rel="noopener"
+              aria-label={`${text.title} — ${l.label}`}
+            >
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d={l.icon} />
+              </svg>
+            </a>
+          ))}
+        </div>
+      )
+    }
+  </div>
+</article>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 22px;
+    border-radius: var(--md-sys-shape-corner-l-increased);
+    background: var(--md-sys-color-surface-container-high);
+    /* Hairline so the card reads as a distinct plane on the neutral base. */
+    box-shadow: inset 0 0 0 1px var(--md-sys-color-outline-variant);
+  }
+
+  .card__body {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+  }
+
+  /* Foot pins to the bottom: tags on the left, repo/link icons bottom-right. */
+  .card__foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 12px;
+    margin-top: auto;
+  }
+
+  .card :global(.card__cover) {
+    width: 72px;
+    height: 72px;
+    margin-bottom: 8px;
+    background: var(--md-sys-color-tertiary-container);
+  }
+
+  .card__title {
+    margin: 0;
+    color: var(--md-sys-color-on-surface);
+    text-wrap: balance;
+  }
+
+  .card__desc {
+    margin: 0;
+    color: var(--md-sys-color-on-surface-variant);
+  }
+
+  .card__chips {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    height: 28px;
+    padding: 0 12px;
+    border-radius: var(--md-sys-shape-corner-full);
+    background: var(--md-sys-color-secondary-container);
+    color: var(--md-sys-color-on-secondary-container);
+  }
+
+  .card__links {
+    flex: none;
+    display: flex;
+    gap: 2px;
+  }
+
+  .card__link {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--md-sys-shape-corner-full);
+    color: var(--md-sys-color-on-surface-variant);
+    transition:
+      background-color var(--md-sys-motion-spring-fast-effects-duration)
+        var(--md-sys-motion-spring-fast-effects-easing),
+      color var(--md-sys-motion-spring-fast-effects-duration)
+        var(--md-sys-motion-spring-fast-effects-easing);
+  }
+
+  .card__link svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .card__link:hover {
+    background: color-mix(
+      in srgb,
+      var(--md-sys-color-on-surface) calc(var(--md-sys-state-hover) * 100%),
+      transparent
+    );
+    color: var(--md-sys-color-on-surface);
+  }
+
+  /* Flagship (order 0): spans the full grid row and goes two-column on wide
+     screens so the extra width is used. */
+  @media (min-width: 720px) {
+    .card--featured {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 20px 40px;
+      align-items: start;
+    }
+
+    .card--featured .card__foot {
+      margin-top: 0;
+    }
+
+    .card--featured .card__title {
+      font-size: var(--md-sys-typescale-headline-sm-size);
+      line-height: var(--md-sys-typescale-headline-sm-line-height);
+    }
+
+    .card--featured .card__desc {
+      font-size: var(--md-sys-typescale-body-lg-size);
+      line-height: var(--md-sys-typescale-body-lg-line-height);
+    }
+  }
+</style>

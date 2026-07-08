@@ -1,0 +1,11 @@
+{
+  // Cloudflare Workers static assets — no Worker script, assets only.
+  "name": "homepage",
+  "compatibility_date": "2026-07-08",
+  "assets": {
+    "directory": "./dist",
+    // Serves dist/404.html with a real 404 status for unknown URLs.
+    "not_found_handling": "404-page",
+    "html_handling": "auto-trailing-slash"
+  }
+}

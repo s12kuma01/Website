@@ -1,0 +1,61 @@
+{
+  "nav": {
+    "primary": "メインナビゲーション",
+    "settings": "設定"
+  },
+  "settings": {
+    "mode": "表示モード",
+    "modeLight": "ライト",
+    "modeAuto": "自動",
+    "modeDark": "ダーク",
+    "palette": "テーマカラー",
+    "hue": "色相",
+    "reroll": "色をリロール",
+    "language": "言語"
+  },
+  "footer": {
+    "hosted": "Hosted on Cloudflare · Built with Astro",
+    "github": "GitHub プロフィール",
+    "discord": "Discord プロフィール"
+  },
+  "home": {
+    "metaTitle": "s12kuma01",
+    "metaDescription": "s12kuma01 の公式ホームページ。開発中のプロジェクトと自己紹介。",
+    "title": "s12kuma01のサイト",
+    "ctaProjects": "プロジェクトを見る",
+    "ctaAbout": "私について"
+  },
+  "projects": {
+    "metaTitle": "プロジェクト",
+    "metaDescription": "s12kuma01 が開発しているメインプロジェクトの一覧。",
+    "heading": "プロジェクト",
+    "intro": "いま力を入れて開発しているものたち。",
+    "viewRepo": "リポジトリ",
+    "viewSite": "サイトを見る"
+  },
+  "about": {
+    "metaTitle": "その他",
+    "metaDescription": "s12kuma01 の詳しいプロフィール。",
+    "heading": "その他",
+    "profileHeading": "プロフィール",
+    "profileBody": [
+      "s12kuma01と申します。Minecraft ModdingとDiscord BOT開発を趣味でやってます。",
+      "なんか適当に思いついたことをとりあえずやってます。かなりの飽き性でたまにゲーム新しく買って起動中に飽きることもあります。"
+    ],
+    "skillsHeading": "スキル・使用技術",
+    "skillGroups": [
+      { "label": "言語", "items": ["Java", "TypeScript", "Go", "Python", "HTML", "CSS"] },
+      { "label": "フレームワーク・ライブラリ", "items": ["Astro", "Next.js", "Vue", "Tailwind CSS", "Node.js", "discord.js", "Mixin"] },
+      { "label": "ツール・ビルド", "items": ["Gradle", "Git", "GitHub", "VS Code", "IntelliJ IDEA", "PowerShell", "Ghostty"] },
+      { "label": "インフラ・OS", "items": ["Cloudflare", "Nginx", "SQLite", "Windows", "Arch Linux", "Debian"] }
+    ],
+    "interestsHeading": "趣味",
+    "interestsBody": "Minecraftの描画まわりの最適化・視覚オプションの追加など、主に1.12.2(Cleanroom Loader)で活動していて、そのバージョンが大好きです。ほかには、Arch Linuxの環境構築や、遊び心のあるDiscord BOT作成などもしてます。NixOSは難しいので泣いてやめました。"
+  },
+  "notFound": {
+    "metaTitle": "ページが見つかりません",
+    "heading": "ページが見つかりません",
+    "body": "お探しのページは移動したか、存在しません。",
+    "backHome": "ホームへ戻る"
+  }
+}

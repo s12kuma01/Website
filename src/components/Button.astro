@@ -1,0 +1,203 @@
+---
+// M3 Expressive button. Sizes XS–XL; color variants filled/tonal/outlined/
+// elevated/text; resting shape round or square. The signature press shape-
+// morph animates between CONCRETE pixel radii (--_r-rest -> --_r-pressed)
+// with the fast-spatial spring — never from corner-full/9999px, which would
+// render as a snap. Press state ([data-pressed]) is owned globally by
+// press-morph.ts (pointer + keyboard parity).
+
+interface Props {
+  size?: 'xs' | 's' | 'm' | 'l' | 'xl';
+  variant?: 'filled' | 'tonal' | 'outlined' | 'elevated' | 'text';
+  shape?: 'round' | 'square';
+  href?: string;
+  type?: 'button' | 'submit';
+  ariaLabel?: string;
+  class?: string;
+  id?: string;
+  popovertarget?: string;
+}
+const {
+  size = 's',
+  variant = 'filled',
+  shape = 'round',
+  href,
+  type = 'button',
+  ariaLabel,
+  class: className,
+  id,
+  popovertarget,
+} = Astro.props;
+const Tag = href ? 'a' : 'button';
+---
+
+<Tag
+  class:list={['m3-btn', className]}
+  data-size={size}
+  data-variant={variant}
+  data-shape={shape}
+  href={href}
+  type={href ? undefined : type}
+  aria-label={ariaLabel}
+  id={id}
+  popovertarget={popovertarget}
+>
+  <slot name="icon" />
+  <span class="m3-btn__label"><slot /></span>
+</Tag>
+
+<style>
+  .m3-btn {
+    /* Per-size geometry (spec values, dp = px). Round resting radius is the
+       concrete h/2; square uses the corner tokens; pressed radii 8/8/12/16/16. */
+    --_h: 40px;
+    --_pad: 16px;
+    --_gap: 8px;
+    --_icon: 20px;
+    --_r-square: var(--md-sys-shape-corner-m);
+    --_r-pressed: 8px;
+    --_border: 1px;
+    --_r-rest: calc(var(--_h) / 2);
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--_gap);
+    height: var(--_h);
+    padding-inline: var(--_pad);
+    border: none;
+    border-radius: var(--_r-rest);
+    transform: scale(1);
+    transform-origin: center;
+    position: relative;
+    isolation: isolate;
+    cursor: pointer;
+    user-select: none;
+    text-decoration: none;
+    white-space: nowrap;
+    -webkit-tap-highlight-color: transparent;
+    transition:
+      transform var(--md-sys-motion-spring-fast-spatial-duration)
+        var(--md-sys-motion-spring-fast-spatial-easing),
+      border-radius var(--md-sys-motion-spring-fast-spatial-duration)
+        var(--md-sys-motion-spring-fast-spatial-easing),
+      background-color var(--md-sys-motion-spring-fast-effects-duration)
+        var(--md-sys-motion-spring-fast-effects-easing),
+      color var(--md-sys-motion-spring-fast-effects-duration)
+        var(--md-sys-motion-spring-fast-effects-easing),
+      box-shadow var(--md-sys-motion-spring-fast-effects-duration)
+        var(--md-sys-motion-spring-fast-effects-easing);
+  }
+
+  .m3-btn[data-shape='square'] {
+    --_r-rest: var(--_r-square);
+  }
+
+  .m3-btn[data-pressed] {
+    border-radius: var(--_r-pressed);
+  }
+
+  /* Press squish — transform only, motion-gated. On release [data-pressed] is
+     removed and the fast-spatial spring's overshoot carries scale past 1.0 for
+     the M3E bounce (no @keyframes needed). */
+  @media (prefers-reduced-motion: no-preference) {
+    .m3-btn[data-pressed] {
+      transform: scale(0.96);
+    }
+  }
+
+  .m3-btn[data-size='xs'] {
+    --_h: 32px; --_icon: 20px; --_gap: 4px; --_pad: 12px;
+    font-size: var(--md-sys-typescale-label-lg-size);
+    line-height: var(--md-sys-typescale-label-lg-line-height);
+    font-weight: var(--md-sys-typescale-weight-medium);
+  }
+  .m3-btn[data-size='s'] {
+    font-size: var(--md-sys-typescale-label-lg-size);
+    line-height: var(--md-sys-typescale-label-lg-line-height);
+    font-weight: var(--md-sys-typescale-weight-medium);
+  }
+  .m3-btn[data-size='m'] {
+    --_h: 56px; --_icon: 24px; --_gap: 8px; --_pad: 24px;
+    --_r-square: var(--md-sys-shape-corner-l); --_r-pressed: 12px;
+    font-size: var(--md-sys-typescale-title-md-size);
+    line-height: var(--md-sys-typescale-title-md-line-height);
+    font-weight: var(--md-sys-typescale-weight-medium);
+  }
+  .m3-btn[data-size='l'] {
+    --_h: 96px; --_icon: 32px; --_gap: 12px; --_pad: 48px;
+    --_r-square: var(--md-sys-shape-corner-xl); --_r-pressed: 16px; --_border: 2px;
+    font-size: var(--md-sys-typescale-headline-sm-size);
+    line-height: var(--md-sys-typescale-headline-sm-line-height);
+  }
+  .m3-btn[data-size='xl'] {
+    --_h: 136px; --_icon: 40px; --_gap: 16px; --_pad: 64px;
+    --_r-square: var(--md-sys-shape-corner-xl); --_r-pressed: 16px; --_border: 3px;
+    font-size: var(--md-sys-typescale-headline-lg-size);
+    line-height: var(--md-sys-typescale-headline-lg-line-height);
+  }
+
+  .m3-btn[data-variant='filled'] {
+    background: var(--md-sys-color-primary);
+    color: var(--md-sys-color-on-primary);
+  }
+  .m3-btn[data-variant='tonal'] {
+    background: var(--md-sys-color-secondary-container);
+    color: var(--md-sys-color-on-secondary-container);
+  }
+  .m3-btn[data-variant='outlined'] {
+    background: transparent;
+    color: var(--md-sys-color-on-surface-variant);
+    box-shadow: inset 0 0 0 var(--_border) var(--md-sys-color-outline-variant);
+  }
+  .m3-btn[data-variant='elevated'] {
+    background: var(--md-sys-color-surface-container-low);
+    color: var(--md-sys-color-primary);
+    box-shadow: 0 1px 3px 1px rgb(0 0 0 / 0.15), 0 1px 2px rgb(0 0 0 / 0.3);
+  }
+  .m3-btn[data-variant='elevated']:hover {
+    box-shadow: 0 2px 6px 2px rgb(0 0 0 / 0.15), 0 1px 2px rgb(0 0 0 / 0.3);
+  }
+  .m3-btn[data-variant='text'] {
+    background: transparent;
+    color: var(--md-sys-color-primary);
+  }
+
+  /* State layer — on-color wash at spec opacities, effects spring. */
+  .m3-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: currentColor;
+    opacity: 0;
+    transition: opacity var(--md-sys-motion-spring-fast-effects-duration)
+      var(--md-sys-motion-spring-fast-effects-easing);
+  }
+  .m3-btn:hover::before {
+    opacity: var(--md-sys-state-hover);
+  }
+  .m3-btn:focus-visible::before {
+    opacity: var(--md-sys-state-focus);
+  }
+  .m3-btn[data-pressed]::before,
+  .m3-btn:active::before {
+    opacity: var(--md-sys-state-press);
+  }
+
+  /* Filled primary CTA (hero size) lifts on hover for hierarchy; tonal stays
+     grounded, dropping flat on press. Shadow rides fast-effects (no spring). */
+  .m3-btn[data-size='m'][data-variant='filled']:hover {
+    box-shadow: 0 1px 3px 1px rgb(0 0 0 / 0.15), 0 1px 2px rgb(0 0 0 / 0.3);
+  }
+  .m3-btn[data-size='m'][data-variant='filled'][data-pressed],
+  .m3-btn[data-size='m'][data-variant='filled']:active {
+    box-shadow: none;
+  }
+
+  .m3-btn :global(svg) {
+    width: var(--_icon);
+    height: var(--_icon);
+  }
+</style>

@@ -1,0 +1,351 @@
+---
+import Slider from '@/components/Slider.astro';
+import { useDict, locales, type Locale } from '@/i18n/ui';
+import { localePath } from '@/i18n/routes';
+
+interface Props {
+  locale: Locale;
+  /** Locale-agnostic path of the current page ('/projects'). */
+  path: string;
+}
+const { locale, path } = Astro.props;
+const t = useDict(locale);
+const s = t.settings;
+const native: Record<Locale, string> = { ja: '日本語', en: 'English', th: 'ไทย' };
+
+const modes = [
+  {
+    value: 'light',
+    label: s.modeLight,
+    icon: 'M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zM2 13h2a1 1 0 0 0 0-2H2a1 1 0 0 0 0 2zm18 0h2a1 1 0 0 0 0-2h-2a1 1 0 0 0 0 2zM11 2v2a1 1 0 0 0 2 0V2a1 1 0 0 0-2 0zm0 18v2a1 1 0 0 0 2 0v-2a1 1 0 0 0-2 0zM5.99 4.58a1 1 0 0 0-1.41 1.41l1.06 1.06a1 1 0 0 0 1.41-1.41L5.99 4.58zm12.37 12.37a1 1 0 0 0-1.41 1.41l1.06 1.06a1 1 0 0 0 1.41-1.41l-1.06-1.06zm1.06-10.96a1 1 0 0 0-1.41-1.41l-1.06 1.06a1 1 0 0 0 1.41 1.41l1.06-1.06zM7.05 18.36a1 1 0 0 0-1.41-1.41l-1.06 1.06a1 1 0 0 0 1.41 1.41l1.06-1.06z',
+  },
+  {
+    value: 'auto',
+    label: s.modeAuto,
+    icon: 'M12 22c5.52 0 10-4.48 10-10S17.52 2 12 2 2 6.48 2 12s4.48 10 10 10zm1-17.93c3.94.49 7 3.85 7 7.93s-3.05 7.44-7 7.93V4.07z',
+  },
+  {
+    value: 'dark',
+    label: s.modeDark,
+    icon: 'M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.39 5.39 0 0 1-4.4 2.26 5.4 5.4 0 0 1-5.4-5.4c0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z',
+  },
+];
+---
+
+<div class="settings">
+  <button class="m3-iconbtn settings__fab" popovertarget="settings-pop" aria-label={t.nav.settings}>
+    <svg class="settings__ico settings__ico--open" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path
+        d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"
+      ></path>
+    </svg>
+    <svg class="settings__ico settings__ico--close" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path
+        d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+      ></path>
+    </svg>
+  </button>
+
+  <div id="settings-pop" class="settings-pop" popover aria-label={t.nav.settings}>
+    <section class="settings__group" style="--i:0">
+      <span class="settings__heading label-sm">{s.mode}</span>
+      <div class="settings__modes" role="radiogroup" aria-label={s.mode}>
+        {
+          modes.map((m) => (
+            <button class="settings__mode" type="button" role="radio" data-mode-value={m.value} aria-checked="false" tabindex="-1">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d={m.icon} />
+              </svg>
+              <span>{m.label}</span>
+            </button>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="settings__group" style="--i:1">
+      <span class="settings__heading label-sm">{s.palette}</span>
+      <div class="settings__palette">
+        <Slider label={s.hue} min={0} max={359} value={180} id="theme-hue" hideLabel class="settings__hue" />
+        <button class="m3-iconbtn settings__reroll" type="button" id="theme-reroll" aria-label={s.reroll}>
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path
+              d="M17.65 6.35A7.96 7.96 0 0 0 12 4a8 8 0 1 0 7.73 10h-2.08A6 6 0 1 1 12 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"
+            ></path>
+          </svg>
+        </button>
+      </div>
+    </section>
+
+    <section class="settings__group" style="--i:2">
+      <span class="settings__heading label-sm">{s.language}</span>
+      <div class="settings__langs">
+        {
+          locales.map((l) => (
+            <a
+              href={localePath(l, path)}
+              hreflang={l}
+              lang={l}
+              class="settings__lang label-lg"
+              aria-current={l === locale ? 'page' : undefined}
+            >
+              {native[l]}
+            </a>
+          ))
+        }
+      </div>
+    </section>
+  </div>
+</div>
+
+<script>
+  import '@/scripts/settings.ts';
+</script>
+
+<style>
+  .settings {
+    display: contents;
+  }
+
+  .settings__ico {
+    grid-area: 1 / 1;
+    transition:
+      opacity var(--md-sys-motion-spring-fast-effects-duration)
+        var(--md-sys-motion-spring-fast-effects-easing),
+      rotate var(--md-sys-motion-spring-default-spatial-duration)
+        var(--md-sys-motion-spring-default-spatial-easing);
+  }
+
+  .settings__fab {
+    display: grid;
+    place-items: center;
+  }
+
+  .settings__ico--close {
+    opacity: 0;
+    rotate: -90deg;
+  }
+
+  .settings__fab[data-open] .settings__ico--open {
+    opacity: 0;
+    rotate: 90deg;
+  }
+
+  .settings__fab[data-open] .settings__ico--close {
+    opacity: 1;
+    rotate: 0deg;
+  }
+
+  .settings-pop {
+    position: fixed;
+    inset: unset;
+    top: calc(12px + 64px + 8px);
+    inset-inline-end: max(16px, calc((100vw - 720px) / 2));
+    width: min(320px, calc(100vw - 24px));
+    margin: 0;
+    padding: 20px;
+    border: none;
+    border-radius: var(--md-sys-shape-corner-xl);
+    background: var(--md-sys-color-surface-container-high);
+    color: var(--md-sys-color-on-surface);
+    box-shadow: 0 6px 18px 2px rgb(0 0 0 / 0.24);
+    display: none;
+    flex-direction: column;
+    gap: 20px;
+    transition:
+      display var(--md-sys-motion-spring-fast-effects-duration) allow-discrete,
+      overlay var(--md-sys-motion-spring-fast-effects-duration) allow-discrete,
+      opacity var(--md-sys-motion-spring-fast-effects-duration)
+        var(--md-sys-motion-spring-fast-effects-easing),
+      translate var(--md-sys-motion-spring-default-spatial-duration)
+        var(--md-sys-motion-spring-default-spatial-easing),
+      scale var(--md-sys-motion-spring-default-spatial-duration)
+        var(--md-sys-motion-spring-default-spatial-easing);
+    opacity: 0;
+    translate: 0 -8px;
+    scale: 0.96;
+    transform-origin: top right;
+  }
+
+  .settings-pop:popover-open {
+    display: flex;
+    opacity: 1;
+    translate: 0 0;
+    scale: 1;
+  }
+
+  /* Popover-API fallback: settings.ts adds .is-open on unsupported engines. */
+  .settings-pop.is-open {
+    display: flex;
+    opacity: 1;
+    translate: 0 0;
+    scale: 1;
+  }
+
+  @starting-style {
+    .settings-pop:popover-open {
+      opacity: 0;
+      translate: 0 -8px;
+      scale: 0.96;
+    }
+  }
+
+  :global(.island[data-state='condensed']) .settings-pop {
+    top: calc(12px + 56px + 8px);
+  }
+
+  .settings__group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .settings-pop:popover-open .settings__group {
+    animation: settings-rise var(--md-sys-motion-spring-default-spatial-duration)
+      var(--md-sys-motion-spring-default-spatial-easing) both;
+    animation-delay: calc(var(--i) * 45ms + 40ms);
+  }
+
+  @keyframes settings-rise {
+    from {
+      opacity: 0;
+      translate: 0 -10px;
+    }
+    to {
+      opacity: 1;
+      translate: 0 0;
+    }
+  }
+
+  .settings__heading {
+    color: var(--md-sys-color-on-surface-variant);
+  }
+
+  /* Self-contained: the .m3-btn base lives in Button.astro's scoped styles
+     and does not reach here. */
+  .settings__modes {
+    display: flex;
+    width: 100%;
+    gap: 2px;
+  }
+
+  .settings__mode {
+    flex: 1 1 0;
+    min-width: 0;
+    position: relative;
+    overflow: hidden; /* clips the ripple to the segment */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 10px 4px;
+    border: none;
+    border-radius: var(--md-sys-shape-corner-s);
+    cursor: pointer;
+    background: var(--md-sys-color-surface-container-highest);
+    color: var(--md-sys-color-on-surface-variant);
+    font-size: var(--md-sys-typescale-label-sm-size);
+    line-height: var(--md-sys-typescale-label-sm-line-height);
+    font-weight: var(--md-sys-typescale-weight-medium);
+    -webkit-tap-highlight-color: transparent;
+    transition:
+      background-color var(--md-sys-motion-spring-fast-effects-duration)
+        var(--md-sys-motion-spring-fast-effects-easing),
+      color var(--md-sys-motion-spring-fast-effects-duration)
+        var(--md-sys-motion-spring-fast-effects-easing);
+  }
+
+  .settings__mode:first-child {
+    border-start-start-radius: var(--md-sys-shape-corner-l-increased);
+    border-end-start-radius: var(--md-sys-shape-corner-l-increased);
+  }
+
+  .settings__mode:last-child {
+    border-start-end-radius: var(--md-sys-shape-corner-l-increased);
+    border-end-end-radius: var(--md-sys-shape-corner-l-increased);
+  }
+
+  .settings__mode svg {
+    width: 20px;
+    height: 20px;
+    flex: none;
+  }
+
+  .settings__mode span {
+    white-space: nowrap;
+  }
+
+  .settings__mode:hover {
+    background: color-mix(
+      in srgb,
+      var(--md-sys-color-on-surface) 6%,
+      var(--md-sys-color-surface-container-highest)
+    );
+  }
+
+  .settings__mode[aria-checked='true'] {
+    background: var(--md-sys-color-secondary-container);
+    color: var(--md-sys-color-on-secondary-container);
+  }
+
+  .settings__palette {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .settings__palette :global(.settings__hue) {
+    flex: 1;
+  }
+
+  .settings__reroll {
+    flex: none;
+    color: var(--md-sys-color-on-surface-variant);
+  }
+
+  /* Static rainbow track: hue is a fixed physical scale, not themed. */
+  .settings__palette :global(.m3-slider input) {
+    background-image: linear-gradient(
+      to right,
+      hsl(27 80% 60%),
+      hsl(90 60% 55%),
+      hsl(147 55% 50%),
+      hsl(220 70% 60%),
+      hsl(283 60% 60%),
+      hsl(345 70% 60%),
+      hsl(27 80% 60%)
+    ) !important;
+  }
+
+  .settings__langs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .settings__lang {
+    position: relative;
+    overflow: hidden; /* clips the ripple to the pill */
+    display: flex;
+    align-items: center;
+    height: 44px;
+    padding-inline: 18px;
+    border-radius: var(--md-sys-shape-corner-full);
+    background: var(--md-sys-color-surface-container-highest);
+    color: var(--md-sys-color-on-surface);
+    text-decoration: none;
+    transition: background-color var(--md-sys-motion-spring-fast-effects-duration)
+      var(--md-sys-motion-spring-fast-effects-easing);
+  }
+
+  .settings__lang:hover {
+    background: var(--md-sys-color-surface-container-highest);
+    filter: brightness(1.1);
+  }
+
+  .settings__lang[aria-current='page'] {
+    background: var(--md-sys-color-primary);
+    color: var(--md-sys-color-on-primary);
+  }
+</style>

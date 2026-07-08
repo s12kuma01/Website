@@ -1,0 +1,10 @@
+---
+import Base from '@/layouts/Base.astro';
+import ProjectsView from '@/views/ProjectsView.astro';
+import { useDict } from '@/i18n/ui';
+const t = useDict('en');
+---
+
+<Base locale="en" title={t.projects.metaTitle} description={t.projects.metaDescription}>
+  <ProjectsView locale="en" />
+</Base>

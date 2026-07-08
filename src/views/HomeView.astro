@@ -1,0 +1,104 @@
+---
+import Button from '@/components/Button.astro';
+import { SITE_NAME, SITE_URL, GITHUB_URL, DISCORD_URL } from '@/consts';
+import { useDict, type Locale } from '@/i18n/ui';
+import { localePath } from '@/i18n/routes';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = useDict(locale);
+const jsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: SITE_NAME,
+  url: SITE_URL,
+  sameAs: [GITHUB_URL, DISCORD_URL],
+});
+---
+
+<script type="application/ld+json" set:html={jsonLd} is:inline></script>
+
+<section class="hero">
+  <h1 class="hero__title">{t.home.title}</h1>
+  <div class="hero__cta">
+    <Button size="m" variant="filled" href={localePath(locale, '/projects')}>
+      {t.home.ctaProjects}
+    </Button>
+    <Button size="m" variant="tonal" href={localePath(locale, '/about')}>
+      {t.home.ctaAbout}
+    </Button>
+  </div>
+</section>
+
+<style>
+  .hero {
+    width: 100%;
+    max-width: 1000px;
+    margin-inline: auto;
+    padding: 48px 24px 64px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    text-align: center;
+  }
+
+  .hero__title {
+    margin: 0;
+    font-size: clamp(2.5rem, 6vw, 4.75rem);
+    line-height: 1.06;
+    font-weight: var(--md-sys-typescale-weight-plain-emphasized);
+    color: var(--md-sys-color-on-surface);
+    text-wrap: balance;
+  }
+
+  .hero__cta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 22px;
+  }
+
+  /* Expressive entrance: the variable-font weight springs up to the
+     emphasized value; other lines rise into place. Skipped under reduced
+     motion (the resting style is already correct). */
+  @media (prefers-reduced-motion: no-preference) {
+    .hero__title {
+      animation: hero-weight var(--md-sys-motion-spring-slow-spatial-duration)
+        var(--md-sys-motion-spring-slow-spatial-easing) both;
+    }
+
+    .hero__cta {
+      animation: hero-rise var(--md-sys-motion-spring-slow-spatial-duration)
+        var(--md-sys-motion-spring-slow-spatial-easing) both;
+      animation-delay: 90ms;
+    }
+  }
+
+  @keyframes hero-weight {
+    from {
+      font-weight: 200;
+      opacity: 0;
+    }
+    to {
+      font-weight: var(--md-sys-typescale-weight-plain-emphasized);
+      opacity: 1;
+    }
+  }
+
+  @keyframes hero-rise {
+    from {
+      translate: 0 14px;
+      opacity: 0;
+    }
+    to {
+      translate: 0 0;
+      opacity: 1;
+    }
+  }
+</style>

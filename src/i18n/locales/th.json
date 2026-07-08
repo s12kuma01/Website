@@ -1,0 +1,61 @@
+{
+  "nav": {
+    "primary": "เมนูหลัก",
+    "settings": "ตั้งค่า"
+  },
+  "settings": {
+    "mode": "โหมดการแสดงผล",
+    "modeLight": "สว่าง",
+    "modeAuto": "อัตโนมัติ",
+    "modeDark": "มืด",
+    "palette": "สีธีม",
+    "hue": "เฉดสี",
+    "reroll": "สุ่มสีใหม่",
+    "language": "ภาษา"
+  },
+  "footer": {
+    "hosted": "Hosted on Cloudflare · Built with Astro",
+    "github": "โปรไฟล์ GitHub",
+    "discord": "โปรไฟล์ Discord"
+  },
+  "home": {
+    "metaTitle": "s12kuma01",
+    "metaDescription": "โฮมเพจอย่างเป็นทางการของ s12kuma01 — โปรเจกต์และประวัติ",
+    "title": "เว็บไซต์ของ s12kuma01",
+    "ctaProjects": "ดูโปรเจกต์",
+    "ctaAbout": "เกี่ยวกับฉัน"
+  },
+  "projects": {
+    "metaTitle": "โปรเจกต์",
+    "metaDescription": "โปรเจกต์หลักที่ s12kuma01 กำลังพัฒนา",
+    "heading": "โปรเจกต์",
+    "intro": "สิ่งที่กำลังตั้งใจพัฒนาอยู่ในตอนนี้",
+    "viewRepo": "ที่เก็บโค้ด",
+    "viewSite": "เยี่ยมชมเว็บไซต์"
+  },
+  "about": {
+    "metaTitle": "เกี่ยวกับ",
+    "metaDescription": "ประวัติโดยละเอียดของ s12kuma01",
+    "heading": "เกี่ยวกับ",
+    "profileHeading": "โปรไฟล์",
+    "profileBody": [
+      "ผมชื่อ s12kuma01 ทำ Minecraft modding และพัฒนาบอท Discord เป็นงานอดิเรก",
+      "ส่วนใหญ่ก็ทำอะไรก็ตามที่นึกขึ้นได้แบบสุ่ม ๆ เป็นคนเบื่อง่ายมาก บางทีซื้อเกมใหม่มาแล้วเบื่อตั้งแต่ตอนที่เกมยังโหลดอยู่เลย"
+    ],
+    "skillsHeading": "ทักษะและเครื่องมือ",
+    "skillGroups": [
+      { "label": "ภาษา", "items": ["Java", "TypeScript", "Go", "Python", "HTML", "CSS"] },
+      { "label": "เฟรมเวิร์กและไลบรารี", "items": ["Astro", "Next.js", "Vue", "Tailwind CSS", "Node.js", "discord.js", "Mixin"] },
+      { "label": "เครื่องมือและบิลด์", "items": ["Gradle", "Git", "GitHub", "VS Code", "IntelliJ IDEA", "PowerShell", "Ghostty"] },
+      { "label": "โครงสร้างพื้นฐานและ OS", "items": ["Cloudflare", "Nginx", "SQLite", "Windows", "Arch Linux", "Debian"] }
+    ],
+    "interestsHeading": "งานอดิเรก",
+    "interestsBody": "ส่วนใหญ่ทำงานกับ Minecraft ทั้งการปรับแต่งการเรนเดอร์และเพิ่มตัวเลือกด้านภาพ โดยเน้นที่เวอร์ชัน 1.12.2 (Cleanroom Loader) ซึ่งเป็นเวอร์ชันที่ผมชอบมาก นอกจากนี้ยังจัดสภาพแวดล้อม Arch Linux และสร้างบอท Discord สนุก ๆ ส่วน NixOS นั้นยากเกินไป เลยยอมแพ้ทั้งน้ำตา"
+  },
+  "notFound": {
+    "metaTitle": "ไม่พบหน้านี้",
+    "heading": "ไม่พบหน้านี้",
+    "body": "หน้าที่คุณกำลังค้นหาถูกย้ายหรือไม่มีอยู่",
+    "backHome": "กลับหน้าแรก"
+  }
+}

@@ -1,0 +1,168 @@
+---
+import { useDict, type Locale } from '@/i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = useDict(locale);
+---
+
+<section class="about">
+  <header class="about__masthead">
+    <h1 class="display-sm" data-emphasized>{t.about.heading}</h1>
+  </header>
+
+  <div class="about__bento">
+    <article class="bento bento--bio">
+      <h2 class="bento__label label-lg" data-emphasized>{t.about.profileHeading}</h2>
+      <div class="bento__prose">
+        {t.about.profileBody.map((paragraph) => <p class="body-lg">{paragraph}</p>)}
+      </div>
+    </article>
+
+    <article class="bento bento--tech">
+      <h2 class="bento__label label-lg" data-emphasized>{t.about.skillsHeading}</h2>
+      <div class="bento__groups">
+        {
+          t.about.skillGroups.map((group) => (
+            <div class="skillgroup">
+              <h3 class="skillgroup__label label-sm">{group.label}</h3>
+              <ul class="bento__chips" role="list">
+                {group.items.map((item) => <li class="label-md">{item}</li>)}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </article>
+
+    <article class="bento bento--interests">
+      <h2 class="bento__label label-lg" data-emphasized>{t.about.interestsHeading}</h2>
+      <p class="body-lg">{t.about.interestsBody}</p>
+    </article>
+  </div>
+</section>
+
+<style>
+  .about {
+    width: 100%;
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 40px 24px 0;
+  }
+
+  .about__masthead {
+    margin-bottom: 28px;
+  }
+
+  .about__masthead h1 {
+    margin: 0;
+    color: var(--md-sys-color-on-surface);
+    text-wrap: balance;
+  }
+
+  /* Bento: stack on mobile → bio full-width over two cards → bio tall-left. */
+  .about__bento {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .bento {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 24px;
+    border-radius: var(--md-sys-shape-corner-xl);
+    background: var(--md-sys-color-surface-container);
+    box-shadow: inset 0 0 0 1px var(--md-sys-color-outline-variant);
+  }
+
+  .bento--bio {
+    background: var(--md-sys-color-surface-container-high);
+  }
+
+  .bento__label {
+    margin: 0;
+    color: var(--md-sys-color-primary);
+  }
+
+  .bento__prose {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .bento__prose p {
+    margin: 0;
+    max-width: 60ch;
+    color: var(--md-sys-color-on-surface);
+  }
+
+  .bento--interests p {
+    margin: 0;
+    color: var(--md-sys-color-on-surface-variant);
+  }
+
+  .bento__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .bento__chips li {
+    padding: 6px 16px;
+    border-radius: var(--md-sys-shape-corner-full);
+    background: var(--md-sys-color-secondary-container);
+    color: var(--md-sys-color-on-secondary-container);
+  }
+
+  .bento__groups {
+    display: grid;
+    gap: 18px;
+  }
+
+  .skillgroup__label {
+    margin: 0 0 8px;
+    color: var(--md-sys-color-on-surface-variant);
+  }
+
+  /* All-caps + tracking is an English convention; don't force it on JA/TH,
+     where letter-spacing detaches kana/kanji and Thai clusters. */
+  :global(html:lang(en)) .bento__label {
+    letter-spacing: 0.04em;
+  }
+
+  :global(html:lang(en)) .skillgroup__label {
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  @media (min-width: 640px) {
+    .about__bento {
+      grid-template-columns: 1.2fr 1fr;
+      grid-template-areas:
+        'bio interests'
+        'tech tech';
+    }
+
+    .bento--bio {
+      grid-area: bio;
+    }
+    .bento--tech {
+      grid-area: tech;
+    }
+    .bento--interests {
+      grid-area: interests;
+    }
+
+    .bento--tech .bento__groups {
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 20px 28px;
+    }
+  }
+</style>

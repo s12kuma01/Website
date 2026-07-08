@@ -1,0 +1,16 @@
+# Flagship / main project.
+order: 0
+repo: https://github.com/Sumire-Labs/Celeritas-Extra
+modrinth: https://modrinth.com/mod/celeritas-extra
+curseforge: https://www.curseforge.com/minecraft/mc-mods/celeritas-extra
+tags: [Java, "1.12.2", Mod, Addon]
+i18n:
+  ja:
+    title: Celeritas-Extra
+    description: "Celeritas(Minecraft 1.12.2 / Cleanroom Loader)向けの非公式ビデオ設定拡張。Sodium Extra 等に着想を得た機能と独自機能を統合し、アニメーション・パーティクル・描画・HUD などを OptiFine 感覚で細かく調整できます。"
+  en:
+    title: Celeritas-Extra
+    description: "An unofficial video-settings extension for Celeritas (Minecraft 1.12.2 / Cleanroom Loader). It integrates features inspired by Sodium Extra plus original ones, letting you fine-tune animations, particles, rendering and the HUD, OptiFine-style."
+  th:
+    title: Celeritas-Extra
+    description: "ส่วนขยายการตั้งค่าภาพแบบไม่เป็นทางการสำหรับ Celeritas (Minecraft 1.12.2 / Cleanroom Loader) รวมฟีเจอร์ที่ได้แรงบันดาลใจจาก Sodium Extra พร้อมฟีเจอร์ดั้งเดิม ให้ปรับแต่งแอนิเมชัน อนุภาค การเรนเดอร์ และ HUD ได้อย่างละเอียดแบบ OptiFine"

@@ -1,0 +1,35 @@
+---
+import { shapes, type ShapeName } from '@/lib/shapes';
+
+interface Props {
+  shape: ShapeName;
+  /** Extra classes for the masked wrapper. */
+  class?: string;
+}
+const { shape, class: className } = Astro.props;
+const uid = `sm-${shape}-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<!-- objectBoundingBox clipPath: path coordinates are 0–1, so the mask scales
+     with the element — CSS path() (fixed user units) cannot do this. -->
+<svg width="0" height="0" aria-hidden="true" style="position:absolute">
+  <clipPath id={uid} clipPathUnits="objectBoundingBox">
+    <path d={shapes[shape]}></path>
+  </clipPath>
+</svg>
+<div class:list={['shape-mask', className]} style={`clip-path: url(#${uid})`}>
+  <slot />
+</div>
+
+<style>
+  .shape-mask {
+    display: grid;
+    place-items: stretch;
+  }
+
+  .shape-mask :global(> *) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+</style>

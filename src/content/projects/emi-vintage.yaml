@@ -1,0 +1,13 @@
+order: 2
+repo: https://github.com/Sumire-Labs/EMI-Vintage
+tags: [Java, "1.12.2", Mod, WIP]
+i18n:
+  ja:
+    title: EMI-Vintage
+    description: "EMI(レシピ・アイテムビューア)を Minecraft 1.12.2(Cleanroom Loader)向けに独自実装する試み。現在開発中です。"
+  en:
+    title: EMI-Vintage
+    description: "An attempt to independently reimplement EMI (the recipe / item viewer) for Minecraft 1.12.2 on Cleanroom Loader. Currently in development."
+  th:
+    title: EMI-Vintage
+    description: "ความพยายามสร้าง EMI (ตัวดูสูตร/ไอเทม) ขึ้นใหม่เองสำหรับ Minecraft 1.12.2 (Cleanroom Loader) กำลังอยู่ระหว่างการพัฒนา"

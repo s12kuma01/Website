@@ -1,0 +1,65 @@
+/* Static M3 Expressive design tokens (non-generated).
+   Color roles come from generated/palettes.css; springs from generated/motion.css. */
+
+:root {
+  /* Shape — corner radius scale (M3E adds l-increased / xl-increased / xxl).
+     RULE: `full` may only be used on elements whose radius never animates;
+     animated components must declare concrete resting radii (px), because
+     interpolating from 9999px renders as a snap, not a spring. */
+  --md-sys-shape-corner-none: 0px;
+  --md-sys-shape-corner-xs: 4px;
+  --md-sys-shape-corner-s: 8px;
+  --md-sys-shape-corner-m: 12px;
+  --md-sys-shape-corner-l: 16px;
+  --md-sys-shape-corner-l-increased: 20px;
+  --md-sys-shape-corner-xl: 28px;
+  --md-sys-shape-corner-xl-increased: 32px;
+  --md-sys-shape-corner-xxl: 48px;
+  --md-sys-shape-corner-full: 9999px;
+
+  /* State layers (opacity of on-color over the container) */
+  --md-sys-state-hover: 0.08;
+  --md-sys-state-focus: 0.1;
+  --md-sys-state-press: 0.1;
+  --md-sys-state-drag: 0.16;
+
+  /* Type scale — baseline sizes/line-heights (unchanged in M3E) plus the
+     emphasized weights (same sizes, heavier weight). */
+  --md-sys-typescale-display-lg-size: 57px;
+  --md-sys-typescale-display-lg-line-height: 64px;
+  --md-sys-typescale-display-md-size: 45px;
+  --md-sys-typescale-display-md-line-height: 52px;
+  --md-sys-typescale-display-sm-size: 36px;
+  --md-sys-typescale-display-sm-line-height: 44px;
+  --md-sys-typescale-headline-lg-size: 32px;
+  --md-sys-typescale-headline-lg-line-height: 40px;
+  --md-sys-typescale-headline-md-size: 28px;
+  --md-sys-typescale-headline-md-line-height: 36px;
+  --md-sys-typescale-headline-sm-size: 24px;
+  --md-sys-typescale-headline-sm-line-height: 32px;
+  --md-sys-typescale-title-lg-size: 22px;
+  --md-sys-typescale-title-lg-line-height: 28px;
+  --md-sys-typescale-title-md-size: 16px;
+  --md-sys-typescale-title-md-line-height: 24px;
+  --md-sys-typescale-title-sm-size: 14px;
+  --md-sys-typescale-title-sm-line-height: 20px;
+  --md-sys-typescale-body-lg-size: 16px;
+  --md-sys-typescale-body-lg-line-height: 24px;
+  --md-sys-typescale-body-md-size: 14px;
+  --md-sys-typescale-body-md-line-height: 20px;
+  --md-sys-typescale-body-sm-size: 12px;
+  --md-sys-typescale-body-sm-line-height: 16px;
+  --md-sys-typescale-label-lg-size: 14px;
+  --md-sys-typescale-label-lg-line-height: 20px;
+  --md-sys-typescale-label-md-size: 12px;
+  --md-sys-typescale-label-md-line-height: 16px;
+  --md-sys-typescale-label-sm-size: 11px;
+  --md-sys-typescale-label-sm-line-height: 16px;
+
+  /* Weights: display/headline/title-lg are Regular(400)->Medium(500) when
+     emphasized; title-md/sm + labels are Medium(500)->Bold(700); body 400->500. */
+  --md-sys-typescale-weight-plain: 400;
+  --md-sys-typescale-weight-plain-emphasized: 500;
+  --md-sys-typescale-weight-medium: 500;
+  --md-sys-typescale-weight-medium-emphasized: 700;
+}

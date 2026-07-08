@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://s12kuma01.com/sitemap-index.xml

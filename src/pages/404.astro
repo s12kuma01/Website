@@ -1,0 +1,31 @@
+---
+import Base from '@/layouts/Base.astro';
+import Button from '@/components/Button.astro';
+import { useDict } from '@/i18n/ui';
+const t = useDict('ja');
+---
+
+<Base locale="ja" title={t.notFound.metaTitle} noAlternates>
+  <section class="nf">
+    <h1 class="headline-lg" data-emphasized>{t.notFound.heading}</h1>
+    <p class="body-lg nf__body">{t.notFound.body}</p>
+    <Button size="m" variant="filled" href="/">{t.notFound.backHome}</Button>
+  </section>
+</Base>
+
+<style>
+  .nf {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 96px 24px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    text-align: center;
+  }
+
+  .nf__body {
+    color: var(--md-sys-color-on-surface-variant);
+  }
+</style>

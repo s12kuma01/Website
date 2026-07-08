@@ -1,0 +1,69 @@
+---
+import { loadingSequence } from '@/lib/shapes';
+
+interface Props {
+  /** Outer container size in px (spec: 48 container / 38 active shape). */
+  size?: number;
+  /** 'contained' wraps the shape in a primary-container circle. */
+  variant?: 'plain' | 'contained';
+}
+const { size = 48, variant = 'plain' } = Astro.props;
+const inner = Math.round((size * 38) / 48);
+const values = [...loadingSequence, loadingSequence[0]].join(';');
+---
+
+<span class:list={['loading-glyph', `loading-glyph--${variant}`]} style={`--_s:${size}px`} aria-hidden="true">
+  <svg
+    class="loading-glyph__shape"
+    width={inner}
+    height={inner}
+    viewBox="0 0 1 1"
+    data-morph-values={values}
+  >
+    <path d={loadingSequence[0]} fill="currentColor"></path>
+  </svg>
+</span>
+
+<script>
+  // SMIL <animate> works in every engine incl. Safari (which cannot animate
+  // the CSS `d` property), but SMIL ignores media queries — so the animation
+  // elements are only injected when the user allows motion.
+  const SVG_NS = 'http://www.w3.org/2000/svg';
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    for (const svg of document.querySelectorAll<SVGSVGElement>('.loading-glyph__shape')) {
+      const path = svg.querySelector('path');
+      const values = svg.dataset.morphValues;
+      if (!path || !values) continue;
+      const morph = document.createElementNS(SVG_NS, 'animate');
+      morph.setAttribute('attributeName', 'd');
+      morph.setAttribute('values', values);
+      morph.setAttribute('dur', '7s');
+      morph.setAttribute('repeatCount', 'indefinite');
+      path.appendChild(morph);
+      const spin = document.createElementNS(SVG_NS, 'animateTransform');
+      spin.setAttribute('attributeName', 'transform');
+      spin.setAttribute('type', 'rotate');
+      spin.setAttribute('from', '0 0.5 0.5');
+      spin.setAttribute('to', '360 0.5 0.5');
+      spin.setAttribute('dur', '14s');
+      spin.setAttribute('repeatCount', 'indefinite');
+      path.appendChild(spin);
+    }
+  }
+</script>
+
+<style>
+  .loading-glyph {
+    display: inline-grid;
+    place-items: center;
+    width: var(--_s);
+    height: var(--_s);
+    color: var(--md-sys-color-primary);
+  }
+
+  .loading-glyph--contained {
+    border-radius: var(--md-sys-shape-corner-full);
+    background: var(--md-sys-color-primary-container);
+    color: var(--md-sys-color-on-primary-container);
+  }
+</style>

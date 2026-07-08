@@ -1,0 +1,29 @@
+{
+  "name": "s12kuma01-homepage",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "packageManager": "pnpm@11.3.0",
+  "scripts": {
+    "gen": "node --import ./scripts/lib/register-hooks.mjs scripts/gen-color-tokens.mjs && node scripts/gen-motion-tokens.mjs && node scripts/gen-boot.mjs",
+    "dev": "pnpm run gen && astro dev",
+    "build": "pnpm run gen && astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "deploy": "pnpm run build && wrangler deploy"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.3",
+    "@fontsource-variable/noto-sans-jp": "^5.2.10",
+    "@material/material-color-utilities": "0.4.0",
+    "astro": "^7.0.6"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.9",
+    "esbuild": "^0.28.1",
+    "sharp": "^0.35.3",
+    "simple-icons": "^16.25.0",
+    "typescript": "^6.0.3",
+    "wrangler": "^4.107.0"
+  }
+}

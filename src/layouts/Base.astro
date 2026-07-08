@@ -1,0 +1,76 @@
+---
+import { Font } from 'astro:assets';
+import boot from '@/styles/generated/boot.min.js?raw';
+import '@fontsource-variable/noto-sans-jp';
+import '@/styles/generated/palettes.css';
+import '@/styles/generated/motion.css';
+import '@/styles/tokens.css';
+import '@/styles/base.css';
+import '@/styles/fonts.css';
+import Footer from '@/components/Footer.astro';
+import Header from '@/components/Header.astro';
+import { SITE_NAME } from '@/consts';
+import { type Locale } from '@/i18n/ui';
+import { alternates, stripLocale } from '@/i18n/routes';
+
+interface Props {
+  locale: Locale;
+  title: string;
+  description?: string;
+  /** Skip hreflang alternates (404 page has no per-locale variants). */
+  noAlternates?: boolean;
+}
+const { locale, title, description, noAlternates = false } = Astro.props;
+const pageTitle = title === SITE_NAME ? title : `${title} — ${SITE_NAME}`;
+const skipLabel = { ja: '本文へスキップ', en: 'Skip to content', th: 'ข้ามไปยังเนื้อหา' }[locale];
+const { path } = stripLocale(Astro.url.pathname);
+const alts = noAlternates ? [] : alternates(path);
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogLocale = { ja: 'ja_JP', en: 'en_US', th: 'th_TH' }[locale];
+const ogAlternates = (['ja_JP', 'en_US', 'th_TH'] as const).filter((l) => l !== ogLocale);
+const ogImage = new URL(`/og/${locale}.png`, Astro.site);
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline set:html={boot}></script>
+    <title>{pageTitle}</title>
+    {description && <meta name="description" content={description} />}
+    <link rel="canonical" href={canonical} />
+    {alts.map((a) => <link rel="alternate" hreflang={a.hreflang} href={new URL(a.href, Astro.site)} />)}
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    {description && <meta property="og:description" content={description} />}
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content={ogLocale} />
+    {ogAlternates.map((l) => <meta property="og:locale:alternate" content={l} />)}
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <Font cssVariable="--font-display" preload />
+    <Font cssVariable="--font-thai" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{skipLabel}</a>
+    <Header locale={locale} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer locale={locale} />
+    <script>
+      import '@/scripts/site.ts';
+      import '@/scripts/press-morph.ts';
+      import '@/scripts/ripple.ts';
+      import '@/scripts/route-progress.ts';
+    </script>
+  </body>
+</html>

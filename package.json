@@ -7,7 +7,7 @@
   "scripts": {
     "gen": "node --import ./scripts/lib/register-hooks.mjs scripts/gen-color-tokens.mjs && node scripts/gen-motion-tokens.mjs && node scripts/gen-boot.mjs",
     "dev": "pnpm run gen && astro dev",
-    "build": "pnpm run gen && astro build",
+    "build": "pnpm run gen && astro build && node scripts/gen-headers.mjs",
     "preview": "astro preview",
     "astro": "astro",
     "deploy": "pnpm run build && wrangler deploy"

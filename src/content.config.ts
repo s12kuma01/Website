@@ -6,15 +6,23 @@ const entry = z.object({
   description: z.string(),
 });
 
+// Reject anything but http(s): z's .url() accepts javascript:/data: URLs, which
+// would be rendered straight into an href in ProjectCard. Content is author-only
+// today, but this keeps a hostile scheme out of the markup regardless of source.
+const httpUrl = z
+  .string()
+  .url()
+  .refine((u) => /^https?:\/\//i.test(u), { message: 'must be an http(s) URL' });
+
 const projects = defineCollection({
   loader: glob({ pattern: '*.yaml', base: './src/content/projects' }),
   schema: ({ image }) =>
     z.object({
       order: z.number(),
-      repo: z.string().url().optional(),
-      modrinth: z.string().url().optional(),
-      curseforge: z.string().url().optional(),
-      link: z.string().url().optional(),
+      repo: httpUrl.optional(),
+      modrinth: httpUrl.optional(),
+      curseforge: httpUrl.optional(),
+      link: httpUrl.optional(),
       cover: image().optional(),
       tags: z.array(z.string()),
       // ALL THREE locales are required — a project missing a translation
